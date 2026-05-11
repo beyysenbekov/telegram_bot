@@ -3,8 +3,8 @@ matplotlib.use('Agg')  # Без GUI
 import matplotlib.pyplot as plt
 import io
 from datetime import datetime, timedelta
-from crud import get_user_tasks, get_statistics
-from database import Status, Priority
+from .crud import get_user_tasks, get_statistics
+from .database import Status, Priority
 
 # Настройка для русского языка
 plt.rcParams['font.family'] = 'DejaVu Sans'
