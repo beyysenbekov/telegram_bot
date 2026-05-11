@@ -6,7 +6,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String, DateTime
-from database import Base, SessionLocal, engine
+from .database import Base, SessionLocal, engine
 import os
 
 # Секретный ключ для JWT

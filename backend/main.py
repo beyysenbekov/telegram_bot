@@ -7,17 +7,17 @@ from typing import List
 from datetime import datetime, timedelta
 
 # Импорты из нашего проекта
-from models import (
+from .models import (
     UserCreate, UserLogin, UserResponse, Token,
     TaskCreate, TaskUpdate, TaskResponse,
     CommentCreate, CommentResponse, StatisticsResponse
 )
-from auth import (
+from .auth import (
     get_db, get_current_user, create_access_token,
     authenticate_user, create_web_user, WebUser
 )
-from database import Task, Status, Priority, get_db as get_db_session
-from crud import (
+from .database import Task, Status, Priority, get_db as get_db_session
+from .crud import (
     create_task, get_user_tasks, complete_task,
     delete_task, get_statistics, get_task
 )

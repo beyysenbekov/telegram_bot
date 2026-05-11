@@ -12,11 +12,11 @@ import os
 from datetime import datetime
 
 # Импорт наших функций
-from crud import (
+from .crud import (
     create_user, get_user_tasks, create_task,
     complete_task, delete_task, get_statistics, get_task
 )
-from database import Priority, Status
+from .database import Priority, Status
 
 # Загрузка переменных окружения
 load_dotenv()
@@ -309,7 +309,7 @@ async def cmd_statistics(message: Message):
 @dp.message(Command("charts"))
 async def cmd_charts(message: Message):
     """Показать графики статистики"""
-    from charts import create_statistics_chart
+    from .charts import create_statistics_chart
     from aiogram.types import BufferedInputFile
     
     # Генерируем дашборд

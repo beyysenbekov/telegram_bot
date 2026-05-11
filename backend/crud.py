@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from database import User, Task, Status, Priority, get_db
+from .database import User, Task, Status, Priority, get_db
 from datetime import datetime
 from typing import List, Optional
 
