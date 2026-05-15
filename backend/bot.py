@@ -54,7 +54,7 @@ async def cmd_start(message: Message):
     from aiogram.types import WebAppInfo
     
     # ВАЖНО: Замени URL на свой (ngrok или railway)
-    WEB_APP_URL = "https://telegramprojectnew-production.up.railway.app"  # <-- ИЗМЕНИ ЭТО!
+    WEB_APP_URL = "https://shredder-confined-pester.ngrok-free.dev"  # <-- ИЗМЕНИ ЭТО!
     
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
