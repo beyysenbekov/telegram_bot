@@ -12,11 +12,11 @@ import os
 from datetime import datetime
 
 # Импорт наших функций
-from .crud import (
+from crud import (
     create_user, get_user_tasks, create_task,
     complete_task, delete_task, get_statistics, get_task
 )
-from .database import Priority, Status
+from database import Priority, Status
 
 # Загрузка переменных окружения
 load_dotenv()
@@ -110,15 +110,16 @@ async def cmd_add_task(message: Message, state: FSMContext):
 
 @dp.message(TaskStates.waiting_for_title)
 async def process_title(message: Message, state: FSMContext):
-    """Получение названия"""
-    await state.update_data(title=message.text)
+    if not message.text or message.text.strip() == "":
+        await message.answer("⚠️ Название не может быть пустым. Введи снова:")
+        return
+    if len(message.text.strip()) > 200:
+        await message.answer("⚠️ Слишком длинное (макс. 200 символов). Попробуй снова:")
+        return
+
+    await state.update_data(title=message.text.strip())
     await state.set_state(TaskStates.waiting_for_description)
-
-    await message.answer(
-        "📝 Шаг 2/3: Введи описание задачи\n"
-        "(или отправь '-' чтобы пропустить):"
-    )
-
+    await message.answer("📝 Шаг 2/3: Введи описание (или '-' чтобы пропустить):")
 
 @dp.message(TaskStates.waiting_for_description)
 async def process_description(message: Message, state: FSMContext):
@@ -309,7 +310,7 @@ async def cmd_statistics(message: Message):
 @dp.message(Command("charts"))
 async def cmd_charts(message: Message):
     """Показать графики статистики"""
-    from .charts import create_statistics_chart
+    from charts import create_statistics_chart
     from aiogram.types import BufferedInputFile
     
     # Генерируем дашборд
@@ -327,6 +328,15 @@ async def cmd_charts(message: Message):
 
 
 # ========== ЗАПУСК БОТА ==========
+@dp.message()
+async def unknown_message(message: Message, state: FSMContext):
+    current_state = await state.get_state()
+    if current_state is not None:
+        return  # Если в FSM — не мешаем
+    await message.answer(
+        "❓ Не понимаю эту команду.\n"
+        "Используй /help чтобы увидеть список команд."
+    )
 
 async def main():
     print("🤖 Бот запущен!")
