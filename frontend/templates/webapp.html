@@ -29,11 +29,11 @@
 </head>
 <body>
     <div class="container-fluid p-3">
-        <h4 class="mb-3">📋 Мои задачи</h4>
+        <h4 class="mb-3">📋 My tasks</h4>
         
         <!-- Кнопка создания -->
         <button class="btn btn-primary btn-telegram mb-3" onclick="showCreateTask()">
-            ➕ Создать задачу
+            ➕ Create a new task
         </button>
 
         <!-- Список задач -->
@@ -49,30 +49,30 @@
         <div class="modal-dialog modal-fullscreen-sm-down">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Новая задача</h5>
+                    <h5 class="modal-title">New task</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Название</label>
+                        <label class="form-label">Name</label>
                         <input type="text" class="form-control" id="taskTitle" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Описание</label>
+                        <label class="form-label">Description</label>
                         <textarea class="form-control" id="taskDescription" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Приоритет</label>
+                        <label class="form-label">Priority</label>
                         <select class="form-select" id="taskPriority">
-                            <option value="низкий">🟢 Низкий</option>
-                            <option value="средний" selected>🟡 Средний</option>
-                            <option value="высокий">🔴 Высокий</option>
+                            <option value="низкий">🟢 Low</option>
+                            <option value="средний" selected>🟡 Middle</option>
+                            <option value="высокий">🔴 High</option>
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                    <button type="button" class="btn btn-primary" onclick="createTask()">Создать</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="createTask()">Create</button>
                 </div>
             </div>
         </div>
@@ -122,16 +122,16 @@
 
                 renderTasks(tasks);
             } catch (error) {
-                console.error('Ошибка загрузки:', error);
+                console.error('Loading error:', error);
                 document.getElementById('tasksList').innerHTML = 
-                    '<div class="alert alert-danger">Ошибка загрузки задач</div>';
+                    '<div class="alert alert-danger">Error loading tasks</div>';
             }
         }
 
         // Отрисовка задач
         function renderTasks(tasks) {
-            const priorityEmoji = {'высокий': '🔴', 'средний': '🟡', 'низкий': '🟢'};
-            const statusBadge = {'в процессе': 'warning', 'выполнено': 'success'};
+            const priorityEmoji = {'High': '🔴', 'Midlle': '🟡', 'Low': '🟢'};
+            const statusBadge = {'In progress': 'warning', 'Done': 'success'};
 
             const html = tasks.map(task => `
                 <div class="card task-card">
@@ -144,7 +144,7 @@
                                 ${task.description ? `<p class="text-muted small mb-2">${task.description}</p>` : ''}
                                 <span class="badge bg-${statusBadge[task.status]}">${task.status}</span>
                             </div>
-                            ${task.status === 'в процессе' ? `
+                            ${task.status === 'In progress' ? `
                                 <button class="btn btn-sm btn-success" onclick="completeTask(${task.id})">
                                     ✓
                                 </button>
@@ -170,7 +170,7 @@
             const priority = document.getElementById('taskPriority').value;
 
             if (!title) {
-                tg.showAlert('Введите название задачи');
+                tg.showAlert('Enter a task name');
                 return;
             }
 
@@ -191,11 +191,11 @@
                     document.getElementById('taskTitle').value = '';
                     document.getElementById('taskDescription').value = '';
                     loadTasks();
-                    tg.showAlert('✅ Задача создана!');
+                    tg.showAlert('✅ Task created!');
                 }
             } catch (error) {
-                console.error('Ошибка:', error);
-                tg.showAlert('❌ Ошибка создания задачи');
+                console.error('Error:', error);
+                tg.showAlert('❌ Error creating task');
             }
         }
 
@@ -210,10 +210,10 @@
 
                 if (response.ok) {
                     loadTasks();
-                    tg.showAlert('✅ Задача выполнена!');
+                    tg.showAlert('✅ Task completed!');
                 }
             } catch (error) {
-                console.error('Ошибка:', error);
+                console.error('Error:', error);
             }
         }
 

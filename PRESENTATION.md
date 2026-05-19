@@ -14,7 +14,9 @@
 ### What problem does the project solve?
 
 ❌ Forgotten tasks and deadlines
+
 ❌ Lack of centralized planning
+
 ❌ Complex project management tools
 
 ✅ **Solution:** A simple and user-friendly planner with Telegram bot integration

@@ -6,23 +6,24 @@ from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime, timedelta
 
-# Импорты из нашего проекта
-from .models import (
+
+from models import (
     UserCreate, UserLogin, UserResponse, Token,
     TaskCreate, TaskUpdate, TaskResponse,
     CommentCreate, CommentResponse, StatisticsResponse
 )
-from .auth import (
+from auth import (
     get_db, get_current_user, create_access_token,
-    authenticate_user, create_web_user, WebUser
+    authenticate_user, create_web_user, WebUser,
+    get_password_hash  # ← add this
 )
-from .database import Task, Status, Priority, get_db as get_db_session
-from .crud import (
+from database import Task, Status, Priority, get_db as get_db_session
+from crud import (
     create_task, get_user_tasks, complete_task,
     delete_task, get_statistics, get_task
 )
 
-# Инициализация приложения
+
 app = FastAPI(title="Task Manager API", version="1.0.0")
 
 # Подключение статических файлов и шаблонов
@@ -159,7 +160,7 @@ async def telegram_login(data: dict, db: Session = Depends(get_db)):
     }
 
 
-# ========== ЗАДАЧИ API ==========
+#задачи апи
 
 @app.post("/api/tasks", response_model=dict)
 async def api_create_task(
@@ -178,7 +179,6 @@ async def api_create_task(
     return {"id": task_id, "message": "Задача создана"}
 
 
-# ========== ПУБЛИЧНЫЕ API ДЛЯ TELEGRAM WEBAPP (без JWT) ==========
 
 @app.post("/api/telegram/tasks")
 async def telegram_create_task(data: dict):
@@ -278,7 +278,7 @@ async def api_delete_task(
     return {"message": "Задача удалена"}
 
 
-# ========== СТАТИСТИКА API ==========
+#СТАТИСТИКА API
 
 @app.get("/api/statistics")
 async def api_statistics(current_user: WebUser = Depends(get_current_user)):

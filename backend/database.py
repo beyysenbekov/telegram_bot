@@ -9,16 +9,16 @@ Base = declarative_base()
 
 # Enum для приоритетов
 class Priority(enum.Enum):
-    LOW = "низкий"
-    MEDIUM = "средний"
-    HIGH = "высокий"
+    LOW = "Low"
+    MEDIUM = "Middle"
+    HIGH = "High"
 
 
 # Enum для статусов
 class Status(enum.Enum):
-    PENDING = "в процессе"
-    COMPLETED = "выполнено"
-    CANCELLED = "отменено"
+    PENDING = "In progress"
+    COMPLETED = "Done"
+    CANCELLED = "Cancelled"
 
 
 # Модель пользователя

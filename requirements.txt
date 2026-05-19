@@ -16,8 +16,8 @@ python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 python-dotenv==1.0.1
 
-# Matplotlib для графиков
+# Matplotlib
 matplotlib==3.8.2
 
-# Email (опционально)
+# Email
 email-validator==2.1.0

@@ -38,7 +38,7 @@ class TaskStates(StatesGroup):
     waiting_for_priority = State()
 
 
-
+# ========== КОМАНДЫ ==========
 
 @dp.message(Command("start"))
 async def cmd_start(message: Message):
@@ -52,10 +52,10 @@ async def cmd_start(message: Message):
 
     # Кнопка для открытия веб-интерфейса
     from aiogram.types import WebAppInfo
-    
+
     # ВАЖНО: Замени URL на свой (ngrok или railway)
     WEB_APP_URL = "https://shredder-confined-pester.ngrok-free.dev"  # <-- ИЗМЕНИ ЭТО!
-    
+
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(
@@ -120,6 +120,7 @@ async def process_title(message: Message, state: FSMContext):
     await state.update_data(title=message.text.strip())
     await state.set_state(TaskStates.waiting_for_description)
     await message.answer("📝 Шаг 2/3: Введи описание (или '-' чтобы пропустить):")
+
 
 @dp.message(TaskStates.waiting_for_description)
 async def process_description(message: Message, state: FSMContext):
@@ -312,13 +313,13 @@ async def cmd_charts(message: Message):
     """Показать графики статистики"""
     from charts import create_statistics_chart
     from aiogram.types import BufferedInputFile
-    
+
     # Генерируем дашборд
     buffer = create_statistics_chart(message.from_user.id)
-    
+
     # Отправляем как фото
     photo = BufferedInputFile(buffer.read(), filename='statistics.png')
-    
+
     await message.answer_photo(
         photo=photo,
         caption="📊 <b>Подробная статистика</b>\n\n"
@@ -337,6 +338,7 @@ async def unknown_message(message: Message, state: FSMContext):
         "❓ Не понимаю эту команду.\n"
         "Используй /help чтобы увидеть список команд."
     )
+
 
 async def main():
     print("🤖 Бот запущен!")

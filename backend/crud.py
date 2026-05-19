@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from .database import User, Task, Status, Priority, get_db
+from database import User, Task, Status, Priority, get_db
 from datetime import datetime
 from typing import List, Optional
 
@@ -10,6 +10,7 @@ def create_user(telegram_id: int, username: str = None, first_name: str = ""):
     """Создать нового пользователя"""
     db = get_db()
 
+    # Проверяем, существует ли
     existing = db.query(User).filter(User.telegram_id == telegram_id).first()
     if existing:
         db.close()
@@ -57,7 +58,7 @@ def create_task(telegram_id: int, title: str, description: str = None,
     return task_id
 
 
-def get_user_tasks(telegram_id: int, status: str = None) -> List[dict]:
+def get_user_tasks(telegram_id: int, status: str = None) -> List[Task]:
     """Получить все задачи пользователя"""
     db = get_db()
 
@@ -68,18 +69,17 @@ def get_user_tasks(telegram_id: int, status: str = None) -> List[dict]:
 
     tasks = query.order_by(Task.created_at.desc()).all()
 
+    # Копируем данные, чтобы избежать проблем после закрытия сессии
     result = []
     for task in tasks:
         result.append({
             'id': task.id,
-            'telegram_id': task.telegram_id,
             'title': task.title,
             'description': task.description,
             'priority': task.priority,
             'status': task.status,
             'deadline': task.deadline,
-            'created_at': task.created_at,
-            'completed_at': task.completed_at,  # ВАЖНО: было пропущено
+            'created_at': task.created_at
         })
 
     db.close()
@@ -159,6 +159,8 @@ def get_statistics(telegram_id: int) -> dict:
     total = len(all_tasks)
     completed = len([t for t in all_tasks if t.status == Status.COMPLETED.value])
     pending = len([t for t in all_tasks if t.status == Status.PENDING.value])
+
+    # Статистика по приоритетам
     high_priority = len([t for t in all_tasks if t.priority == Priority.HIGH.value])
 
     db.close()

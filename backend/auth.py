@@ -6,20 +6,20 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String, DateTime
-from .database import Base, SessionLocal, engine
+from database import Base, SessionLocal, engine
 import os
 
-# Секретный ключ для JWT
+
 SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-this-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30 * 24 * 60  # 30 дней
 
-# Хеширование паролей
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
 
-# ========== МОДЕЛЬ WEB-ПОЛЬЗОВАТЕЛЯ ==========
+#МОДЕЛЬ WEB-ПОЛЬЗОВАТЕЛЯ
 
 class WebUser(Base):
     __tablename__ = 'web_users'
@@ -119,7 +119,7 @@ def create_web_user(db: Session, email: str, password: str, first_name: str, tel
     if existing:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Пользователь с таким email уже существует"
+            detail="The user's email address already exists."
         )
     
     user = WebUser(
