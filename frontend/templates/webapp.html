@@ -88,6 +88,12 @@
         // Получаем данные пользователя из Telegram
         const user = tg.initDataUnsafe.user;
         const telegram_id = user ? user.id : null;
+        if (!telegram_id) {
+            document.getElementById('tasksList').innerHTML =
+                '<div class="alert alert-warning">Открой через Telegram бот</div>';
+}       else {
+            loadTasks();
+}
 
         // Настройка темы
         document.body.style.backgroundColor = tg.backgroundColor || '#fff';

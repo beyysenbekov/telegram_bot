@@ -1,195 +1,212 @@
-# 📋 TaskManager - Система управления задачами
+# 📋 TaskManager - Task Management System
 
-Полноценный веб-сервис для управления задачами с интеграцией Telegram-бота, графиками и аналитикой.
+A full-featured web service for task management with Telegram bot integration, charts, and analytics.
 
-## 🎯 Описание проекта
+## 🎯 Project Description
 
-TaskManager - это современное веб-приложение для планирования и отслеживания задач, которое включает:
-- 🌐 Веб-интерфейс на FastAPI + Bootstrap
-- 📱 Telegram-бот для быстрого управления задачами
-- 📊 Графики и статистика (Chart.js + Matplotlib)
-- 🔐 JWT авторизация
-- 🏷️ Категории, теги и фильтры
-- ⏰ Дедлайны и приоритеты
+TaskManager is a modern web application for planning and tracking tasks that includes:
 
-## 🏗️ Архитектура проекта
+* 🌐 Web interface built with FastAPI + Bootstrap
+* 📱 Telegram bot for quick task management
+* 📊 Charts and analytics (Chart.js + Matplotlib)
+* 🔐 JWT authentication
+* 🏷️ Categories, tags, and filters
+* ⏰ Deadlines and priorities
 
-```
+## 🏗️ Project Architecture
+
+```plaintext
 task-manager/
 ├── backend/
-│   ├── database.py       # SQLAlchemy модели (User, Task, Comment)
-│   ├── crud.py           # CRUD операции с БД
-│   ├── auth.py           # JWT авторизация
-│   ├── models.py         # Pydantic схемы для API
-│   ├── main.py           # FastAPI приложение
-│   ├── bot.py            # Telegram бот (aiogram)
-│   └── charts.py         # Matplotlib графики
+│   ├── database.py       # SQLAlchemy models (User, Task, Comment)
+│   ├── crud.py           # Database CRUD operations
+│   ├── auth.py           # JWT authentication
+│   ├── models.py         # Pydantic schemas for API
+│   ├── main.py           # FastAPI application
+│   ├── bot.py            # Telegram bot (aiogram)
+│   └── charts.py         # Matplotlib charts
 │
 ├── frontend/
 │   ├── static/
 │   │   └── css/style.css
 │   └── templates/
-│       ├── index.html       # Главная страница
-│       ├── login.html       # Вход/Регистрация
-│       ├── dashboard.html   # Дашборд с графиками
-│       └── tasks.html       # Управление задачами
+│       ├── index.html       # Home page
+│       ├── login.html       # Login/Register
+│       ├── dashboard.html   # Dashboard with charts
+│       └── tasks.html       # Task management
 │
-├── .env                  # Переменные окружения
-├── requirements.txt      # Зависимости
-├── tasks.db             # SQLite база данных
+├── .env                  # Environment variables
+├── requirements.txt      # Dependencies
+├── tasks.db              # SQLite database
 └── README.md
 ```
 
-## 📦 Технологический стек
+## 📦 Technology Stack
 
 ### Backend:
-- **FastAPI** - веб-фреймворк
-- **SQLAlchemy** - ORM для работы с БД
-- **Aiogram 3** - Telegram Bot API
-- **JWT** (python-jose) - авторизация
-- **Matplotlib** - генерация графиков
-- **Uvicorn** - ASGI сервер
+
+* **FastAPI** — web framework
+* **SQLAlchemy** — ORM for database operations
+* **Aiogram 3** — Telegram Bot API
+* **JWT** (python-jose) — authentication
+* **Matplotlib** — chart generation
+* **Uvicorn** — ASGI server
 
 ### Frontend:
-- **Bootstrap 5** - UI фреймворк
-- **Chart.js** - интерактивные графики
-- **Vanilla JavaScript** - логика фронтенда
 
-### База данных:
-- **SQLite** - для разработки
-- **PostgreSQL** - для production (опционально)
+* **Bootstrap 5** — UI framework
+* **Chart.js** — interactive charts
+* **Vanilla JavaScript** — frontend logic
 
-## 🚀 Установка и запуск
+### Database:
 
-### 1. Клонирование проекта
+* **SQLite** — for development
+* **PostgreSQL** — for production (optional)
+
+## 🚀 Installation and Setup
+
+### 1. Clone the Project
 
 ```bash
 git clone <your-repo>
 cd task-manager
 ```
 
-### 2. Установка зависимостей
+### 2. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Настройка .env файла
+### 3. Configure the `.env` File
 
-Создайте файл `.env` в корне проекта:
+Create a `.env` file in the project root:
 
 ```env
 BOT_TOKEN=your_telegram_bot_token_here
 SECRET_KEY=your-secret-key-for-jwt
 ```
 
-**Как получить BOT_TOKEN:**
-1. Откройте Telegram
-2. Найдите @BotFather
-3. Отправьте `/newbot`
-4. Следуйте инструкциям
-5. Скопируйте токен в `.env`
+### How to Get a BOT_TOKEN:
 
-### 4. Запуск Telegram-бота
+1. Open Telegram
+2. Search for @BotFather
+3. Send `/newbot`
+4. Follow the instructions
+5. Copy the token into `.env`
+
+### 4. Run the Telegram Bot
 
 ```bash
 cd backend
 python bot.py
 ```
 
-Бот будет доступен в Telegram!
+The bot will now be available in Telegram.
 
-### 5. Запуск веб-сервера
+### 5. Run the Web Server
 
-В новом терминале:
+Open a new terminal:
 
 ```bash
 cd backend
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Веб-интерфейс доступен по адресу: `http://localhost:8000`
+The web interface will be available at:
 
-## 📱 Использование Telegram-бота
-
-### Команды бота:
-
-- `/start` - Начать работу и зарегистрироваться
-- `/add` - Добавить новую задачу (пошагово)
-- `/list` - Показать все задачи
-- `/pending` - Активные задачи
-- `/completed` - Выполненные задачи
-- `/stats` - Текстовая статистика
-- `/charts` - Графики статистики (Matplotlib)
-- `/help` - Справка по командам
-
-### Пример использования:
-
-```
-Вы: /add
-Бот: Введите название задачи
-Вы: Купить молоко
-Бот: Введите описание (или - для пропуска)
-Вы: В магазине на углу
-Бот: Выберите приоритет:
-     [🔴 Высокий] [🟡 Средний] [🟢 Низкий]
-Вы: *нажимаете 🟡*
-Бот: ✅ Задача #1 создана!
+```plaintext
+http://localhost:8000
 ```
 
-## 🌐 Веб-интерфейс
+## 📱 Using the Telegram Bot
 
-### Страницы:
+### Bot Commands:
 
-1. **Главная** (`/`) - Лендинг с описанием
-2. **Вход/Регистрация** (`/login`) - Авторизация
-3. **Дашборд** (`/dashboard`) - Статистика и графики
-4. **Задачи** (`/tasks`) - Управление задачами
+* `/start` — Start using the bot and register
+* `/add` — Add a new task step by step
+* `/list` — Show all tasks
+* `/pending` — Show active tasks
+* `/completed` — Show completed tasks
+* `/stats` — Display text statistics
+* `/charts` — Generate statistics charts (Matplotlib)
+* `/help` — Show help information
 
-### Возможности веб-версии:
+### Example Usage:
 
-- ✅ Создание, редактирование, удаление задач
-- 🏷️ Категории и теги
-- 🔍 Фильтрация по статусу, приоритету, категории
-- 📊 Интерактивные графики (Chart.js)
-- ⏰ Установка дедлайнов
-- 💬 Комментарии к задачам (опционально)
+```plaintext
+You: /add
+Bot: Enter the task title
+You: Buy milk
+Bot: Enter a description (or - to skip)
+You: At the local store
+Bot: Choose a priority:
+     [🔴 High] [🟡 Medium] [🟢 Low]
+You: *clicks 🟡*
+Bot: ✅ Task #1 created!
+```
 
-## 🔐 Авторизация
+## 🌐 Web Interface
 
-### Регистрация:
-1. Перейдите на `/login`
-2. Выберите вкладку "Регистрация"
-3. Заполните форму (email, пароль, имя)
-4. Опционально: укажите Telegram ID для синхронизации
+### Pages:
 
-### Вход:
-1. Введите email и пароль
-2. Получите JWT токен
-3. Токен сохраняется в localStorage
+1. **Home** (`/`) — Landing page with project description
+2. **Login/Register** (`/login`) — Authentication page
+3. **Dashboard** (`/dashboard`) — Statistics and charts
+4. **Tasks** (`/tasks`) — Task management
 
-### Связка с Telegram:
-При регистрации можно указать Telegram ID (узнать: @userinfobot), чтобы задачи синхронизировались между ботом и веб-версией.
+### Web Features:
 
-## 📊 Графики и статистика
+* ✅ Create, edit, and delete tasks
+* 🏷️ Categories and tags
+* 🔍 Filtering by status, priority, and category
+* 📊 Interactive charts (Chart.js)
+* ⏰ Deadline management
+* 💬 Task comments (optional)
 
-### В Telegram (Matplotlib):
-Команда `/charts` генерирует PNG с 4 графиками:
-- Круговая диаграмма статусов
-- Столбчатая диаграмма приоритетов
-- Линейный график продуктивности
-- Топ категорий
+## 🔐 Authentication
 
-### В веб-интерфейсе (Chart.js):
-Интерактивные графики на дашборде:
-- Статус задач (doughnut)
-- Продуктивность за неделю (line)
-- Задачи по категориям (bar)
-- Обновление в реальном времени
+### Registration:
 
-## 🗄️ Структура базы данных
+1. Open `/login`
+2. Select the “Register” tab
+3. Fill in the form (email, password, first name)
+4. Optionally provide your Telegram ID for synchronization
 
-### Таблица `users`:
+### Login:
+
+1. Enter your email and password
+2. Receive a JWT token
+3. The token is stored in localStorage
+
+### Telegram Integration:
+
+During registration, users can provide their Telegram ID (via @userinfobot) so tasks can sync between the Telegram bot and the web application.
+
+## 📊 Charts and Analytics
+
+### In Telegram (Matplotlib):
+
+The `/charts` command generates a PNG image with 4 charts:
+
+* Pie chart for task statuses
+* Bar chart for priorities
+* Productivity line graph
+* Top categories chart
+
+### In the Web Interface (Chart.js):
+
+Interactive charts on the dashboard:
+
+* Task status chart (doughnut)
+* Weekly productivity chart (line)
+* Tasks by category chart (bar)
+* Real-time updates
+
+## 🗄️ Database Structure
+
+### `users` Table:
+
 ```sql
 - telegram_id (INT, PRIMARY KEY)
 - username (VARCHAR)
@@ -197,7 +214,8 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 - created_at (DATETIME)
 ```
 
-### Таблица `web_users`:
+### `web_users` Table:
+
 ```sql
 - id (INT, PRIMARY KEY)
 - email (VARCHAR, UNIQUE)
@@ -207,14 +225,15 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 - created_at (DATETIME)
 ```
 
-### Таблица `tasks`:
+### `tasks` Table:
+
 ```sql
 - id (INT, PRIMARY KEY)
 - telegram_id (INT)
 - title (VARCHAR)
 - description (TEXT)
-- priority (ENUM: низкий, средний, высокий)
-- status (ENUM: в процессе, выполнено, отменено)
+- priority (ENUM: low, medium, high)
+- status (ENUM: pending, completed, cancelled)
 - category (VARCHAR)
 - tags (VARCHAR)
 - deadline (DATETIME)
@@ -222,7 +241,8 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 - completed_at (DATETIME)
 ```
 
-### Таблица `comments`:
+### `comments` Table:
+
 ```sql
 - id (INT, PRIMARY KEY)
 - task_id (INT)
@@ -233,97 +253,88 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 ## 🔧 API Endpoints
 
-### Авторизация:
-- `POST /api/auth/register` - Регистрация
-- `POST /api/auth/login` - Вход (получение токена)
-- `GET /api/auth/me` - Информация о пользователе
+### Authentication:
 
-### Задачи:
-- `GET /api/tasks` - Список всех задач
-- `POST /api/tasks` - Создать задачу
-- `GET /api/tasks/{id}` - Получить задачу
-- `PATCH /api/tasks/{id}/complete` - Отметить выполненной
-- `DELETE /api/tasks/{id}` - Удалить задачу
+* `POST /api/auth/register` — Register
+* `POST /api/auth/login` — Login (get JWT token)
+* `GET /api/auth/me` — Get current user info
 
-### Статистика:
-- `GET /api/statistics` - Полная статистика с графиками
+### Tasks:
 
-## 🎓 Соответствие критериям проекта
+* `GET /api/tasks` — Get all tasks
+* `POST /api/tasks` — Create a task
+* `GET /api/tasks/{id}` — Get task by ID
+* `PATCH /api/tasks/{id}/complete` — Mark task as completed
+* `DELETE /api/tasks/{id}` — Delete a task
 
-### Этап 1 (30%): ✅ ВЫПОЛНЕНО
-- ✅ Консольное приложение (Telegram бот)
-- ✅ Базовые операции: добавить/удалить/отметить
-- ✅ Хранение в БД (SQLite)
-- ✅ Работа с типами данных, функции
+### Statistics:
 
-### Этап 2 (60%): ✅ ВЫПОЛНЕНО
-- ✅ Веб-приложение (FastAPI)
-- ✅ ООП модели (Task, User, Comment)
-- ✅ CRUD через веб-интерфейс
-- ✅ Продвинутый модуль: Telegram API интеграция
+* `GET /api/statistics` — Get full statistics and charts
 
-### Этап 3 (100%): ✅ ВЫПОЛНЕНО
-- ✅ Категории, теги, фильтры
-- ✅ Визуализация (Chart.js + Matplotlib)
-- ✅ Комментарии к задачам
-- ✅ JWT авторизация
-- ✅ Красивый фронтенд (Bootstrap)
-- ✅ Готовность к deploy
+## 🎓 Project Requirements Coverage
 
-## 🚀 Deploy (Production)
+### Stage 1 (30%): ✅ COMPLETED
 
-### Вариант 1: Railway.app
+* ✅ Console application (Telegram bot)
+* ✅ Basic operations: add/delete/complete tasks
+* ✅ Database integration (SQLite)
+* ✅ Functions and data types usage
 
-1. Создайте аккаунт на railway.app
-2. Подключите GitHub репозиторий
-3. Настройте переменные окружения
-4. Deploy автоматически!
+### Stage 2 (60%): ✅ COMPLETED
 
-### Вариант 2: Render.com
+* ✅ Web application (FastAPI)
+* ✅ OOP models (Task, User, Comment)
+* ✅ CRUD operations through web interface
+* ✅ Advanced module: Telegram API integration
 
-1. Создайте Web Service
-2. Укажите команду: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
-3. Добавьте переменные окружения
-4. Deploy!
+### Stage 3 (100%): ✅ COMPLETED
 
-### Вариант 3: VPS (DigitalOcean, AWS, etc.)
+* ✅ Categories, tags, and filters
+* ✅ Data visualization (Chart.js + Matplotlib)
+* ✅ Task comments
+* ✅ JWT authentication
+* ✅ Modern UI (Bootstrap)
+* ✅ Ready for deployment
+
+## 🚀 Deployment (Production)
+
+### Option 1: Railway.app
+
+1. Create an account on Railway
+2. Connect your GitHub repository
+3. Configure environment variables
+4. Deploy automatically
+
+### Option 2: Render.com
+
+1. Create a Web Service
+2. Set the start command:
 
 ```bash
-# Установите зависимости
-pip install -r requirements.txt
-
-# Запустите с помощью gunicorn
-gunicorn backend.main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
-
-# Или используйте Docker
-docker build -t taskmanager .
-docker run -p 8000:8000 taskmanager
+uvicorn backend.main:app --host 0.0.0.0 --port $PORT
 ```
 
-## 📝 TODO (Улучшения)
+3. Add environment variables
+4. Deploy
 
-- [ ] Email уведомления о дедлайнах
-- [ ] Экспорт задач в PDF/Excel
-- [ ] Telegram Web App (веб внутри бота)
-- [ ] Повторяющиеся задачи (cron)
-- [ ] Совместные задачи (несколько пользователей)
-- [ ] Прикрепление файлов к задачам
-- [ ] Темная тема
-- [ ] Mobile приложение
+### Option 3: VPS (DigitalOcean, AWS, etc.)
 
-## 🤝 Автор
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-Курсовой проект  
-2024 год
+# Run with gunicorn
+gunicorn backend.main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
 
-## 📄 Лицензия
+```
 
-MIT License
+## 📝 TODO (Future Improvements)
 
-## 🐛 Проблемы и поддержка
-
-При возникновении проблем создайте Issue в репозитории.
-
----
-
-**⭐ Если проект понравился - поставьте звезду!**
+* [ ] Email notifications for deadlines
+* [ ] Export tasks to PDF/Excel
+* [ ] Telegram Web App support
+* [ ] Recurring tasks (cron jobs)
+* [ ] Shared tasks (multi-user collaboration)
+* [ ] File attachments for tasks
+* [ ] Dark mode
+* [ ] Mobile application

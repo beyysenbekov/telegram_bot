@@ -1,56 +1,61 @@
-# 🎯 ПРЕЗЕНТАЦИЯ ПРОЕКТА TaskManager
+# 📋 PRESENTATION — TaskManager Project
 
-## Слайд 1: Титульный
-**TaskManager - Система управления задачами**
-- Студент: [Ваше имя]
-- Курсовой проект
-- 2024 год
+## Slide 1: Title
 
----
+**TaskManager - Task Management System**
 
-## Слайд 2: Проблема
-**Что решает проект?**
-
-❌ Забытые задачи и дедлайны  
-❌ Отсутствие централизованного планирования  
-❌ Сложные инструменты управления проектами  
-
-✅ **Решение:** Простой и удобный планировщик с Telegram-ботом
+* Student: [Daryn]
+* Course Project
 
 ---
 
-## Слайд 3: Технологический стек
+## Slide 2: Problem
+
+### What problem does the project solve?
+
+❌ Forgotten tasks and deadlines
+❌ Lack of centralized planning
+❌ Complex project management tools
+
+✅ **Solution:** A simple and user-friendly planner with Telegram bot integration
+
+---
+
+## Slide 3: Technology Stack
 
 ### Backend:
-- **FastAPI** - современный веб-фреймворк
-- **SQLAlchemy** - ORM для работы с БД
-- **Aiogram 3** - асинхронный Telegram Bot API
-- **JWT** - безопасная авторизация
-- **Matplotlib** - генерация графиков
+
+* **FastAPI** — modern web framework
+* **SQLAlchemy** — ORM for database management
+* **Aiogram 3** — asynchronous Telegram Bot API
+* **JWT** — secure authentication
+* **Matplotlib** — chart generation
 
 ### Frontend:
-- **Bootstrap 5** - адаптивный UI
-- **Chart.js** - интерактивные графики
-- **JavaScript** - динамический интерфейс
 
-### База данных:
-- **SQLite** (dev) / **PostgreSQL** (prod)
+* **Bootstrap 5** — responsive UI
+* **Chart.js** — interactive charts
+* **JavaScript** — dynamic interface
+
+### Database:
+
+* **SQLite** (development) / **PostgreSQL** (production)
 
 ---
 
-## Слайд 4: Архитектура проекта
+## Slide 4: Project Architecture
 
-```
+```plaintext id="5w9lm1"
 ┌─────────────────────────────────────┐
-│      Frontend (Bootstrap + JS)      │
-│  - Главная, Дашборд, Задачи        │
+│     Frontend (Bootstrap + JS)       │
+│   - Home, Dashboard, Tasks          │
 └──────────────┬──────────────────────┘
                │ HTTP/REST API
 ┌──────────────▼──────────────────────┐
-│      Backend (FastAPI)              │
-│  - JWT Auth                         │
-│  - CRUD Operations                  │
-│  - Charts Generation                │
+│        Backend (FastAPI)            │
+│   - JWT Authentication              │
+│   - CRUD Operations                 │
+│   - Chart Generation                │
 └──────────────┬──────────────────────┘
                │
     ┌──────────┴──────────┐
@@ -63,67 +68,83 @@
 
 ---
 
-## Слайд 5: Функционал - Telegram Bot
+## Slide 5: Features — Telegram Bot
 
-**Команды:**
-- `/start` - Регистрация и приветствие
-- `/add` - Пошаговое создание задачи
-- `/list` - Список всех задач с кнопками
-- `/pending` - Активные задачи
-- `/completed` - Выполненные задачи
-- `/stats` - Текстовая статистика
-- `/charts` - **Графики (Matplotlib)** 📊
-- `/help` - Справка
+### Commands:
 
-**Фичи:**
-✅ Интерактивные кнопки (InlineKeyboard)  
-✅ FSM (машина состояний) для создания задач  
-✅ Приоритеты: Высокий/Средний/Низкий  
-✅ Автоматические напоминания (опционально)
+* `/start` — Registration and welcome message
+* `/add` — Step-by-step task creation
+* `/list` — List of all tasks with buttons
+* `/pending` — Active tasks
+* `/completed` — Completed tasks
+* `/stats` — Text statistics
+* `/charts` — **Charts (Matplotlib)** 📊
+* `/help` — Help information
 
----
+### Features:
 
-## Слайд 6: Функционал - Web-интерфейс
+✅ Interactive buttons (InlineKeyboard)
 
-### Страницы:
-1. **Главная** - Лендинг с описанием
-2. **Вход/Регистрация** - JWT авторизация
-3. **Дашборд** - Статистика с графиками
-4. **Задачи** - CRUD операции
+✅ FSM (Finite State Machine) for task creation
 
-### Возможности:
-✅ Создание/редактирование/удаление задач  
-✅ Категории и теги  
-✅ Фильтрация (статус, приоритет, категория)  
-✅ Установка дедлайнов  
-✅ Интерактивные графики (Chart.js)  
-✅ Адаптивный дизайн (мобильные устройства)
+✅ Priorities: High / Medium / Low
+
+✅ Automatic reminders (optional)
 
 ---
 
-## Слайд 7: Графики и аналитика
+## Slide 6: Features — Web Interface
 
-### В Telegram (Matplotlib):
-**Дашборд со статистикой:**
-- 🥧 Круговая диаграмма статусов
-- 📊 Столбчатая диаграмма приоритетов
-- 📈 График продуктивности за неделю
-- 🏷️ Топ категорий
+### Pages:
 
-### На сайте (Chart.js):
-**Интерактивные графики:**
-- Doughnut chart - распределение задач
-- Line chart - динамика выполнения
-- Bar chart - задачи по категориям
-- Обновление в реальном времени
+1. **Home** — Landing page with project description
+2. **Login/Register** — JWT authentication
+3. **Dashboard** — Statistics and charts
+4. **Tasks** — CRUD operations
+
+### Capabilities:
+
+✅ Create/edit/delete tasks
+
+✅ Categories and tags
+
+✅ Filtering (status, priority, category)
+
+✅ Deadline management
+
+✅ Interactive charts (Chart.js)
+
+✅ Responsive design (mobile devices)
 
 ---
 
-## Слайд 8: База данных (ER-диаграмма)
+## Slide 7: Charts and Analytics
 
-```
+### In Telegram (Matplotlib):
+
+### Statistics Dashboard:
+
+* 🥧 Pie chart of task statuses
+* 📊 Bar chart of priorities
+* 📈 Weekly productivity graph
+* 🏷️ Top categories chart
+
+### On the Website (Chart.js):
+
+### Interactive Charts:
+
+* Doughnut chart — task distribution
+* Line chart — completion dynamics
+* Bar chart — tasks by category
+* Real-time updates
+
+---
+
+## Slide 8: Database (ER Diagram)
+
+```plaintext id="9vx9m2"
 ┌──────────────┐      ┌────────────────┐      ┌─────────────┐
-│   Users      │      │     Tasks      │      │  Comments   │
+│    Users     │      │     Tasks      │      │  Comments   │
 ├──────────────┤      ├────────────────┤      ├─────────────┤
 │ telegram_id  │──┐   │ id             │   ┌──│ id          │
 │ username     │  │   │ telegram_id    │───┘  │ task_id     │
@@ -141,200 +162,210 @@
 └──────────────┘
 ```
 
-**Таблицы:**
-- `users` - пользователи Telegram
-- `web_users` - пользователи веб-интерфейса
-- `tasks` - задачи с категориями и тегами
-- `comments` - комментарии к задачам
+### Tables:
+
+* `users` — Telegram users
+* `web_users` — web application users
+* `tasks` — tasks with categories and tags
+* `comments` — task comments
 
 ---
 
-## Слайд 9: Соответствие требованиям
+## Slide 9: Requirement Coverage
 
-### ✅ Этап 1 (30%):
-- Консольное приложение (Telegram-бот)
-- Базовые операции CRUD
-- Хранение в БД
-- Типы данных, функции
+### ✅ Stage 1 (30%):
 
-### ✅ Этап 2 (60%):
-- Веб-приложение (FastAPI)
-- ООП модели (User, Task, Comment)
-- CRUD через веб
-- **Продвинутый модуль:** Telegram API интеграция
+* Console application (Telegram bot)
+* Basic CRUD operations
+* Database storage
+* Data types and functions
 
-### ✅ Этап 3 (100%):
-- Категории, теги, фильтры
-- **Визуализация:** Chart.js + Matplotlib
-- Комментарии к задачам
-- **JWT авторизация**
-- **Bootstrap фронтенд**
-- Готовность к deploy (Docker)
+### ✅ Stage 2 (60%):
 
----
+* Web application (FastAPI)
+* OOP models (User, Task, Comment)
+* CRUD via web interface
+* **Advanced module:** Telegram API integration
 
-## Слайд 10: Уникальные фичи
+### ✅ Stage 3 (100%):
 
-### 🎯 Что выделяет проект:
-
-1. **Два интерфейса** - Web + Telegram
-2. **Синхронизация** - задачи доступны везде
-3. **Двойная визуализация:**
-   - Статичные графики (Matplotlib) → Telegram
-   - Интерактивные графики (Chart.js) → Web
-4. **Современный стек** - FastAPI, async/await
-5. **Production-ready** - Docker, JWT, готов к деплою
+* Categories, tags, filters
+* **Visualization:** Chart.js + Matplotlib
+* Task comments
+* **JWT authentication**
+* **Bootstrap frontend**
+* Deployment-ready (Docker)
 
 ---
 
-## Слайд 11: API Documentation
+## Slide 10: Unique Features
 
-### FastAPI автоматическая документация:
+### 🎯 What makes the project unique:
+
+1. **Two interfaces** — Web + Telegram
+2. **Synchronization** — tasks available everywhere
+3. **Dual visualization:**
+
+   * Static charts (Matplotlib) → Telegram
+   * Interactive charts (Chart.js) → Web
+4. **Modern tech stack** — FastAPI, async/await
+
+---
+
+## Slide 11: API Documentation
+
+### FastAPI Automatic Documentation:
+
 **Swagger UI:** `http://localhost:8000/docs`
 
-**Эндпоинты:**
-```
-POST   /api/auth/register    - Регистрация
-POST   /api/auth/login       - Вход (JWT)
-GET    /api/auth/me          - Текущий пользователь
+### Endpoints:
 
-GET    /api/tasks            - Список задач
-POST   /api/tasks            - Создать задачу
-PATCH  /api/tasks/{id}/complete - Выполнить
-DELETE /api/tasks/{id}       - Удалить
+```plaintext id="5l9xx4"
+POST   /api/auth/register         - Register
+POST   /api/auth/login            - Login (JWT)
+GET    /api/auth/me               - Current user
 
-GET    /api/statistics       - Статистика
+GET    /api/tasks                 - Get tasks
+POST   /api/tasks                 - Create task
+PATCH  /api/tasks/{id}/complete   - Complete task
+DELETE /api/tasks/{id}            - Delete task
+
+GET    /api/statistics            - Statistics
 ```
 
 ---
 
-## Слайд 12: Deployment (Production)
+## Slide 12: Deployment (Production)
 
-### Варианты развертывания:
+### Deployment Options:
 
-**1. Railway.app** (рекомендуется)
-```bash
-# Подключить GitHub → Auto-deploy
+### 1. Railway.app (recommended)
+
+```bash id="rjz17s"
+# Connect GitHub → Auto-deploy
 ```
 
-**2. Docker**
-```bash
+### 2. Docker
+
+```bash id="r9xx6d"
 docker-compose up -d
 ```
 
-**3. VPS (DigitalOcean, AWS)**
-```bash
+### 3. VPS (DigitalOcean, AWS)
+
+```bash id="h5ymx8"
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-**CI/CD:** GitHub Actions для автодеплоя
+### CI/CD:
+
+GitHub Actions for automatic deployment
 
 ---
 
-## Слайд 13: Демонстрация
+## Slide 13: Demonstration
 
-### Сценарий демонстрации:
+### Demo Scenario:
 
-1. **Telegram-бот:**
-   - Создание задачи через `/add`
-   - Просмотр списка `/list`
-   - Отметка выполненной
-   - Графики `/charts`
+### 1. Telegram Bot:
 
-2. **Веб-интерфейс:**
-   - Регистрация → Вход
-   - Дашборд с графиками
-   - Создание задачи с категорией
-   - Фильтрация задач
+* Create a task using `/add`
+* View tasks using `/list`
+* Mark task as completed
+* Generate charts using `/charts`
 
-3. **Синхронизация:**
-   - Показать что задача из бота появилась на сайте
+### 2. Web Interface:
 
----
+* Registration → Login
+* Dashboard with charts
+* Create task with category
+* Filter tasks
 
-## Слайд 14: Метрики проекта
+### 3. Synchronization:
 
-### 📊 Статистика кода:
-
-- **Строк кода:** ~2000+
-- **Файлов Python:** 7
-- **Файлов HTML:** 4
-- **API эндпоинтов:** 10+
-- **Таблиц БД:** 4
-- **Telegram команд:** 8
-
-### 🛠️ Технологии:
-- Языки: Python, JavaScript, HTML/CSS
-- Фреймворки: FastAPI, Bootstrap
-- Библиотеки: 15+
-- Паттерны: MVC, REST API, JWT
+* Show that a task created in the bot appears on the website
 
 ---
 
-## Слайд 15: Дальнейшее развитие
+## Slide 14: Project Metrics
 
-### 🚀 Планы:
+### 📊 Code Statistics:
 
-- [ ] Email уведомления о дедлайнах
-- [ ] Экспорт задач в PDF/Excel
-- [ ] Telegram Web App (мини-приложение)
-- [ ] Повторяющиеся задачи (cron)
-- [ ] Совместные проекты (команды)
-- [ ] Mobile приложение (React Native)
-- [ ] AI помощник для приоритизации
-- [ ] Интеграция с Google Calendar
+* **Lines of code:** ~2000+
+* **Python files:** 7
+* **HTML files:** 4
+* **API endpoints:** 10+
+* **Database tables:** 4
+* **Telegram commands:** 8
 
----
+### 🛠️ Technologies:
 
-## Слайд 16: Выводы
-
-### ✅ Достигнуто:
-
-1. **Полнофункциональное приложение** - Web + Bot
-2. **Современный стек технологий** - FastAPI, async
-3. **Красивый интерфейс** - Bootstrap, адаптивный
-4. **Визуализация данных** - 2 библиотеки графиков
-5. **Production-ready** - Docker, JWT, деплой
-6. **Документация** - README, API docs
-
-### 🎯 Применение:
-- Личное планирование
-- Управление проектами малых команд
-- Учебные задачи
-- Рабочие процессы
+* Languages: Python, JavaScript, HTML/CSS
+* Frameworks: FastAPI, Bootstrap
+* Libraries: 15+
+* Patterns: MVC, REST API, JWT
 
 ---
 
-## Слайд 17: Спасибо за внимание!
+## Slide 15: Future Development
 
-### 📚 Полезные ссылки:
+### 🚀 Planned Features:
 
-- **GitHub:** [ссылка на репозиторий]
-- **Demo:** [ссылка на деплой]
-- **Документация:** README.md
-- **API Docs:** /docs
-
-### 📧 Контакты:
-- Email: [ваш email]
-- Telegram: [ваш Telegram]
-
-**Вопросы?** 🙋‍♂️
+* [ ] Email deadline notifications
+* [ ] Export tasks to PDF/Excel
+* [ ] Telegram Web App (mini app)
+* [ ] Recurring tasks (cron jobs)
+* [ ] Team collaboration projects
+* [ ] Mobile application (React Native)
+* [ ] AI assistant for prioritization
+* [ ] Google Calendar integration
 
 ---
 
-## БОНУС: Ответы на возможные вопросы
+## Slide 16: Conclusion
 
-**Q: Почему FastAPI, а не Django?**  
-A: FastAPI современнее, быстрее, поддерживает async/await из коробки, автодокументация API.
+### ✅ Achievements:
 
-**Q: Зачем два типа графиков?**  
-A: Matplotlib для статичных картинок в Telegram, Chart.js для интерактива на сайте.
+1. **Full-featured application** — Web + Bot
+2. **Modern technology stack** — FastAPI, async
+3. **Beautiful UI** — Bootstrap, responsive design
+4. **Data visualization** — 2 chart libraries
+5. **Production-ready** — Docker, JWT, deployment
+6. **Documentation** — README, API docs
 
-**Q: Как масштабируется проект?**  
-A: PostgreSQL вместо SQLite, Redis для кеша, Kubernetes для оркестрации.
+### 🎯 Applications:
 
-**Q: Безопасность?**  
-A: JWT токены, хеширование паролей (bcrypt), SQL injection защита (ORM), HTTPS в production.
+* Personal planning
+* Small team project management
+* Educational tasks
+* Workflow organization
 
-**Q: Тесты есть?**  
-A: Можно добавить pytest для unit/integration тестов.
+---
+
+## Slide 17: Thank You!
+
+## Questions? 🙋‍♂️
+
+---
+
+# BONUS: Answers to Possible Questions
+
+### Q: Why FastAPI instead of Django?
+
+**A:** FastAPI is more modern, faster, supports async/await natively, and automatically generates API documentation.
+
+### Q: Why use two chart libraries?
+
+**A:** Matplotlib is used for static images in Telegram, while Chart.js provides interactive charts on the website.
+
+### Q: How can the project scale?
+
+**A:** PostgreSQL instead of SQLite, Redis for caching, and Kubernetes for orchestration.
+
+### Q: What about security?
+
+**A:** JWT tokens, password hashing with bcrypt, SQL injection protection via ORM, and HTTPS in production.
+
+### Q: Are there tests?
+
+**A:** pytest can be added for unit and integration testing.

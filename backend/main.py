@@ -93,17 +93,17 @@ async def register(user: UserCreate, db: Session = Depends(get_db)):
 async def login(user: UserLogin, db: Session = Depends(get_db)):
     """Вход пользователя"""
     authenticated_user = authenticate_user(db, user.email, user.password)
-    
+
     if not authenticated_user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Неверный email или пароль",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     # Создаём токен
     access_token = create_access_token(data={"sub": authenticated_user.email})
-    
+
     return {"access_token": access_token, "token_type": "bearer"}
 
 
@@ -122,18 +122,18 @@ async def telegram_login(data: dict, db: Session = Depends(get_db)):
     telegram_id = data.get('telegram_id')
     first_name = data.get('first_name', 'Пользователь')
     username = data.get('username')
-    
+
     if not telegram_id:
         raise HTTPException(status_code=400, detail="Telegram ID обязателен")
-    
+
     # Ищем пользователя с таким telegram_id
     user = db.query(WebUser).filter(WebUser.telegram_id == telegram_id).first()
-    
+
     # Если нет - создаём автоматически
     if not user:
         # Генерируем уникальный email на основе telegram_id
         email = f"tg{telegram_id}@telegram.user"
-        
+
         user = WebUser(
             email=email,
             password_hash=get_password_hash(str(telegram_id)),  # Пароль = telegram_id
@@ -143,10 +143,10 @@ async def telegram_login(data: dict, db: Session = Depends(get_db)):
         db.add(user)
         db.commit()
         db.refresh(user)
-    
+
     # Создаём JWT токен
     access_token = create_access_token(data={"sub": user.email})
-    
+
     return {
         "access_token": access_token,
         "token_type": "bearer",
@@ -163,8 +163,8 @@ async def telegram_login(data: dict, db: Session = Depends(get_db)):
 
 @app.post("/api/tasks", response_model=dict)
 async def api_create_task(
-    task: TaskCreate,
-    current_user: WebUser = Depends(get_current_user)
+        task: TaskCreate,
+        current_user: WebUser = Depends(get_current_user)
 ):
     """Создать задачу"""
     task_id = create_task(
@@ -174,7 +174,7 @@ async def api_create_task(
         priority=task.priority,
         deadline=task.deadline
     )
-    
+
     return {"id": task_id, "message": "Задача создана"}
 
 
@@ -214,8 +214,8 @@ async def telegram_complete_task(task_id: int, data: dict):
 
 @app.get("/api/tasks", response_model=List[dict])
 async def api_get_tasks(
-    status: str = None,
-    current_user: WebUser = Depends(get_current_user)
+        status: str = None,
+        current_user: WebUser = Depends(get_current_user)
 ):
     """Получить все задачи пользователя"""
     tasks = get_user_tasks(
@@ -227,54 +227,54 @@ async def api_get_tasks(
 
 @app.get("/api/tasks/{task_id}", response_model=dict)
 async def api_get_task(
-    task_id: int,
-    current_user: WebUser = Depends(get_current_user)
+        task_id: int,
+        current_user: WebUser = Depends(get_current_user)
 ):
     """Получить задачу по ID"""
     task = get_task(task_id)
-    
+
     if not task:
         raise HTTPException(status_code=404, detail="Задача не найдена")
-    
+
     # Проверка владельца
     user_id = current_user.telegram_id or current_user.id
     if task['telegram_id'] != user_id:
         raise HTTPException(status_code=403, detail="Нет доступа к этой задаче")
-    
+
     return task
 
 
 @app.patch("/api/tasks/{task_id}/complete")
 async def api_complete_task(
-    task_id: int,
-    current_user: WebUser = Depends(get_current_user)
+        task_id: int,
+        current_user: WebUser = Depends(get_current_user)
 ):
     """Отметить задачу как выполненную"""
     success = complete_task(
         task_id=task_id,
         telegram_id=current_user.telegram_id or current_user.id
     )
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Задача не найдена")
-    
+
     return {"message": "Задача выполнена"}
 
 
 @app.delete("/api/tasks/{task_id}")
 async def api_delete_task(
-    task_id: int,
-    current_user: WebUser = Depends(get_current_user)
+        task_id: int,
+        current_user: WebUser = Depends(get_current_user)
 ):
     """Удалить задачу"""
     success = delete_task(
         task_id=task_id,
         telegram_id=current_user.telegram_id or current_user.id
     )
-    
+
     if not success:
         raise HTTPException(status_code=404, detail="Задача не найдена")
-    
+
     return {"message": "Задача удалена"}
 
 
@@ -284,30 +284,30 @@ async def api_delete_task(
 async def api_statistics(current_user: WebUser = Depends(get_current_user)):
     """Получить статистику пользователя"""
     stats = get_statistics(current_user.telegram_id or current_user.id)
-    
+
     # Дополнительная статистика для графиков
     tasks = get_user_tasks(current_user.telegram_id or current_user.id)
-    
+
     # Задачи по дням (за последние 7 дней)
     tasks_per_day = {}
     for i in range(7):
         date = (datetime.now() - timedelta(days=i)).strftime('%d.%m')
         count = len([
-            t for t in tasks 
-            if t.get('completed_at') and 
-            t['completed_at'].date() == (datetime.now() - timedelta(days=i)).date()
+            t for t in tasks
+            if t.get('completed_at') and
+               t['completed_at'].date() == (datetime.now() - timedelta(days=i)).date()
         ])
         tasks_per_day[date] = count
-    
+
     # Задачи по категориям
     tasks_by_category = {}
     for task in tasks:
         category = task.get('category', 'Без категории') or 'Без категории'
         tasks_by_category[category] = tasks_by_category.get(category, 0) + 1
-    
+
     stats['tasks_per_day'] = tasks_per_day
     stats['tasks_by_category'] = tasks_by_category
-    
+
     return stats
 
 
@@ -323,4 +323,5 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

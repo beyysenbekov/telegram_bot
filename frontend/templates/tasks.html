@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="/dashboard">📋 TaskManager</a>
@@ -37,7 +36,6 @@
     </nav>
 
     <div class="container mt-4">
-        <!-- Заголовок и кнопка создания -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Мои задачи</h2>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTaskModal">
@@ -49,7 +47,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row g-3">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">Статус</label>
                         <select class="form-select" id="filterStatus" onchange="loadTasks()">
                             <option value="">Все</option>
@@ -57,21 +55,17 @@
                             <option value="выполнено">Выполнено</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">Приоритет</label>
-                        <select class="form-select" id="filterPriority">
+                        <select class="form-select" id="filterPriority" onchange="applyFilters()">
                             <option value="">Все</option>
                             <option value="высокий">Высокий</option>
                             <option value="средний">Средний</option>
                             <option value="низкий">Низкий</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Категория</label>
-                        <input type="text" class="form-control" id="filterCategory" placeholder="Фильтр...">
-                    </div>
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button class="btn btn-secondary w-100" onclick="applyFilters()">Применить</button>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button class="btn btn-secondary w-100" onclick="resetFilters()">Сбросить</button>
                     </div>
                 </div>
             </div>
@@ -80,9 +74,7 @@
         <!-- Список задач -->
         <div id="tasksList">
             <div class="text-center py-5">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Загрузка...</span>
-                </div>
+                <div class="spinner-border text-primary" role="status"></div>
             </div>
         </div>
     </div>
@@ -95,42 +87,32 @@
                     <h5 class="modal-title">Создать задачу</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form id="createTaskForm">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Название *</label>
-                            <input type="text" class="form-control" id="taskTitle" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Описание</label>
-                            <textarea class="form-control" id="taskDescription" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Приоритет</label>
-                            <select class="form-select" id="taskPriority">
-                                <option value="низкий">🟢 Низкий</option>
-                                <option value="средний" selected>🟡 Средний</option>
-                                <option value="высокий">🔴 Высокий</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Категория</label>
-                            <input type="text" class="form-control" id="taskCategory" placeholder="Работа, Личное...">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Теги</label>
-                            <input type="text" class="form-control" id="taskTags" placeholder="через запятую">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Дедлайн</label>
-                            <input type="datetime-local" class="form-control" id="taskDeadline">
-                        </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Название *</label>
+                        <input type="text" class="form-control" id="taskTitle" required>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                        <button type="submit" class="btn btn-primary">Создать</button>
+                    <div class="mb-3">
+                        <label class="form-label">Описание</label>
+                        <textarea class="form-control" id="taskDescription" rows="3"></textarea>
                     </div>
-                </form>
+                    <div class="mb-3">
+                        <label class="form-label">Приоритет</label>
+                        <select class="form-select" id="taskPriority">
+                            <option value="низкий">🟢 Низкий</option>
+                            <option value="средний" selected>🟡 Средний</option>
+                            <option value="высокий">🔴 Высокий</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Дедлайн</label>
+                        <input type="datetime-local" class="form-control" id="taskDeadline">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary" onclick="createTask()">Создать</button>
+                </div>
             </div>
         </div>
     </div>
@@ -139,10 +121,8 @@
     <script>
         const API_URL = '/api';
         const token = localStorage.getItem('token');
-        
-        if (!token) {
-            window.location.href = '/login';
-        }
+
+        if (!token) window.location.href = '/login';
 
         const headers = {
             'Authorization': `Bearer ${token}`,
@@ -151,7 +131,6 @@
 
         let allTasks = [];
 
-        // Загрузка пользователя
         async function loadUser() {
             try {
                 const response = await fetch(`${API_URL}/auth/me`, { headers });
@@ -164,47 +143,39 @@
             }
         }
 
-        // Загрузка задач
         async function loadTasks() {
             const status = document.getElementById('filterStatus').value;
             const url = status ? `${API_URL}/tasks?status=${encodeURIComponent(status)}` : `${API_URL}/tasks`;
-            
+
             try {
                 const response = await fetch(url, { headers });
                 allTasks = await response.json();
-                
                 if (response.ok) {
-                    renderTasks(allTasks);
+                    applyFilters();
                 }
             } catch (error) {
                 console.error('Ошибка загрузки задач:', error);
             }
         }
 
-        // Применить фильтры
         function applyFilters() {
             const priority = document.getElementById('filterPriority').value;
-            const category = document.getElementById('filterCategory').value.toLowerCase();
-
             let filtered = allTasks;
-
             if (priority) {
                 filtered = filtered.filter(t => t.priority === priority);
             }
-
-            if (category) {
-                filtered = filtered.filter(t => 
-                    t.category && t.category.toLowerCase().includes(category)
-                );
-            }
-
             renderTasks(filtered);
         }
 
-        // Отрисовка задач
+        function resetFilters() {
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('filterPriority').value = '';
+            loadTasks();
+        }
+
         function renderTasks(tasks) {
             const container = document.getElementById('tasksList');
-            
+
             if (tasks.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-5 text-muted">
@@ -215,17 +186,8 @@
                 return;
             }
 
-            const priorityEmoji = {
-                'высокий': '🔴',
-                'средний': '🟡',
-                'низкий': '🟢'
-            };
-
-            const statusBadge = {
-                'в процессе': 'warning',
-                'выполнено': 'success',
-                'отменено': 'danger'
-            };
+            const priorityEmoji = { 'высокий': '🔴', 'средний': '🟡', 'низкий': '🟢' };
+            const statusBadge = { 'в процессе': 'warning', 'выполнено': 'success', 'отменено': 'danger' };
 
             container.innerHTML = tasks.map(task => `
                 <div class="card mb-3 task-card">
@@ -234,22 +196,17 @@
                             <div class="flex-grow-1">
                                 <h5 class="card-title">
                                     ${priorityEmoji[task.priority] || ''} ${task.title}
-                                    <span class="badge bg-${statusBadge[task.status]}">${task.status}</span>
+                                    <span class="badge bg-${statusBadge[task.status] || 'secondary'}">${task.status}</span>
                                 </h5>
-                                ${task.description ? `<p class="text-muted">${task.description}</p>` : ''}
-                                <div class="task-meta">
-                                    ${task.category ? `<span class="badge bg-secondary">${task.category}</span>` : ''}
-                                    ${task.tags ? task.tags.split(',').map(tag => 
-                                        `<span class="badge bg-info">${tag.trim()}</span>`
-                                    ).join(' ') : ''}
-                                    <small class="text-muted ms-2">
-                                        Создана: ${new Date(task.created_at).toLocaleDateString('ru-RU')}
-                                    </small>
+                                ${task.description ? `<p class="text-muted mb-1">${task.description}</p>` : ''}
+                                ${task.deadline ? `<small class="text-danger">⏰ Дедлайн: ${new Date(task.deadline).toLocaleDateString('ru-RU')}</small>` : ''}
+                                <div class="mt-1">
+                                    <small class="text-muted">Создана: ${new Date(task.created_at).toLocaleDateString('ru-RU')}</small>
                                 </div>
                             </div>
-                            <div class="task-actions">
+                            <div class="task-actions ms-3">
                                 ${task.status === 'в процессе' ? `
-                                    <button class="btn btn-sm btn-success" onclick="completeTask(${task.id})">
+                                    <button class="btn btn-sm btn-success me-1" onclick="completeTask(${task.id})">
                                         ✓ Выполнено
                                     </button>
                                 ` : ''}
@@ -263,16 +220,17 @@
             `).join('');
         }
 
-        // Создание задачи
-        document.getElementById('createTaskForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        async function createTask() {
+            const title = document.getElementById('taskTitle').value.trim();
+            if (!title) {
+                alert('Введите название задачи');
+                return;
+            }
 
             const task = {
-                title: document.getElementById('taskTitle').value,
+                title: title,
                 description: document.getElementById('taskDescription').value || null,
                 priority: document.getElementById('taskPriority').value,
-                category: document.getElementById('taskCategory').value || null,
-                tags: document.getElementById('taskTags').value || null,
                 deadline: document.getElementById('taskDeadline').value || null
             };
 
@@ -285,43 +243,36 @@
 
                 if (response.ok) {
                     bootstrap.Modal.getInstance(document.getElementById('createTaskModal')).hide();
-                    document.getElementById('createTaskForm').reset();
+                    document.getElementById('taskTitle').value = '';
+                    document.getElementById('taskDescription').value = '';
+                    document.getElementById('taskDeadline').value = '';
                     loadTasks();
                 }
             } catch (error) {
                 console.error('Ошибка создания задачи:', error);
             }
-        });
+        }
 
-        // Выполнить задачу
         async function completeTask(id) {
             try {
                 const response = await fetch(`${API_URL}/tasks/${id}/complete`, {
                     method: 'PATCH',
                     headers
                 });
-
-                if (response.ok) {
-                    loadTasks();
-                }
+                if (response.ok) loadTasks();
             } catch (error) {
                 console.error(error);
             }
         }
 
-        // Удалить задачу
         async function deleteTask(id) {
             if (!confirm('Удалить задачу?')) return;
-
             try {
                 const response = await fetch(`${API_URL}/tasks/${id}`, {
                     method: 'DELETE',
                     headers
                 });
-
-                if (response.ok) {
-                    loadTasks();
-                }
+                if (response.ok) loadTasks();
             } catch (error) {
                 console.error(error);
             }
@@ -332,7 +283,6 @@
             window.location.href = '/login';
         }
 
-        // Инициализация
         loadUser();
         loadTasks();
     </script>

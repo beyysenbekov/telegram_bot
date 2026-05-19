@@ -38,7 +38,7 @@ class TaskStates(StatesGroup):
     waiting_for_priority = State()
 
 
-# ========== КОМАНДЫ ==========
+
 
 @dp.message(Command("start"))
 async def cmd_start(message: Message):
